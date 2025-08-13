@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import express, { json, raw } from 'express'
 import { requireAuth } from '@clerk/express'
-import { clerkClient } from '@clerk/backend'
+import { clerkClient } from '@clerk/clerk-sdk-node'
 import cors from 'cors'
 import { PrismaClient } from '@prisma/client'
 
