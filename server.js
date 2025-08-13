@@ -1,6 +1,6 @@
 import 'dotenv/config'
 import express, { json, raw } from 'express'
-import { ClerkExpressRequireAuth } from '@clerk/express'
+import { requireAuth } from '@clerk/express'
 import { clerkClient } from '@clerk/backend'
 import cors from 'cors'
 import { PrismaClient } from '@prisma/client'
@@ -55,7 +55,7 @@ app.post('/api/webhooks/clerk', raw({ type: "application/json" }), async (req, r
   }
 })
 
-app.get('/api/protected', ClerkExpressRequireAuth(), (req, res) => {
+app.get('/api/protected', requireAuth(), (req, res) => {
   res.json({ message: 'This is protected data', user: req.auth })
 })
 
