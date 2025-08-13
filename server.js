@@ -1,6 +1,6 @@
-require('dotenv').config()
+import 'dotenv/config'
 import express, { json, raw } from 'express'
-import { ClerkExressRequireAuth } from '@clerk/express'
+import { ClerkExpressRequireAuth } from '@clerk/express'
 import { clerkClient } from '@clerk/backend'
 import cors from 'cors'
 import { PrismaClient } from '@prisma/client'
@@ -27,10 +27,10 @@ app.post('/api/webhooks/clerk', raw({ type: "application/json" }), async (req, r
     })
 
     if (event.type === 'user.created' || event.type === 'user.updated') {
-      const { id, email_addresses, first_name, last_name } = event.data
+      const { id, email_addresses, first_name, last_name, primary_email_address_id } = event.data
       const email = email_addresses.find(
-        email => email.id === event.data.primary_email_address_id
-      )?.email_addresses
+        email => email.id === primary_email_address_id
+      )?.email_address
 
       await prisma.user.upsert({
         where: { clerkUserId: id },
@@ -55,8 +55,8 @@ app.post('/api/webhooks/clerk', raw({ type: "application/json" }), async (req, r
   }
 })
 
-app.get('/api/protected', ClerkExressRequireAuth(), (req, res) => {
-  res.json({ message: 'This is protected data', user: req.auth})
+app.get('/api/protected', ClerkExpressRequireAuth(), (req, res) => {
+  res.json({ message: 'This is protected data', user: req.auth })
 })
 
 app.get('/api/user/:clerkUserId', async (req, res) => {
