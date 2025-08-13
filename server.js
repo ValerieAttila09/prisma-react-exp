@@ -1,18 +1,18 @@
 require('dotenv').config()
-const express = require('express')
-const { ClerkExressRequireAuth } = require('@clerk/express')
-const { clerkClient } = require('@clerk/backend')
-const { PrismaClient } = require('@prisma/client')
-const cors = require('cors')
+import express, { json, raw } from 'express'
+import { ClerkExressRequireAuth } from '@clerk/express'
+import { clerkClient } from '@clerk/backend'
+import cors from 'cors'
+import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 const app = express()
 const PORT = process.env.PORT || 3000
 
-app.use(express.json())
+app.use(json())
 app.use(cors())
 
-app.post('/api/webhooks/clerk', express.raw({ type: "application/json" }), async (req, res) => {
+app.post('/api/webhooks/clerk', raw({ type: "application/json" }), async (req, res) => {
   const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET
 
   if (!WEBHOOK_SECRET) {
