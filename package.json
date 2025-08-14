@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "prisma:generate": "prisma generate",
     "postinstall": "prisma generate",
-    "prisma:migrate": "prisma migrate dev --name updated"
+    "prisma:migrate": "prisma migrate dev --name updated",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
